@@ -1,5 +1,6 @@
 # core/config.py
 from pathlib import Path
+import os
 
 # ── Paths ────────────────────────────────────────────────────────
 BASE_DIR     = Path(__file__).resolve().parent.parent
@@ -83,3 +84,17 @@ ALERT_COOLDOWN_SECONDS: int = 600   # 10 minutes
 
 # ── Stale reading threshold ───────────────────────────────────────
 STALE_READING_MINUTES: int = 15
+
+
+# ── SSD ───────────────────────────────────────────────────────────────────────
+SSD_CONF_THRESHOLD = float(os.getenv("SSD_CONF", "0.40"))
+SSD_IOU_THRESHOLD  = float(os.getenv("SSD_IOU",  "0.45"))
+SSD_MAX_DETECTIONS = int(os.getenv("SSD_MAX_DET", "100"))
+
+# Standard SSD MobileNet TF-OD-API class index → label
+# Class 0 is background in TF-OD-API exports; mice start at 1
+SSD_CLASS_MAP = {
+    1: "mouse",
+}
+
+STALE_MINUTES = int(os.getenv("STALE_MINUTES", "15"))
