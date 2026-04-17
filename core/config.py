@@ -1,5 +1,6 @@
 # core/config.py
 from pathlib import Path
+import os
 
 # ── Paths ────────────────────────────────────────────────────────
 BASE_DIR     = Path(__file__).resolve().parent.parent
@@ -83,3 +84,19 @@ ALERT_COOLDOWN_SECONDS: int = 600   # 10 minutes
 
 # ── Stale reading threshold ───────────────────────────────────────
 STALE_READING_MINUTES: int = 15
+# ── ADD THESE TO core/config.py ──────────────────────────────────────────────
+#
+# Find your existing YOLO_* config block and add the RT-DETR block right after.
+# Everything else in config.py stays the same.
+ 
+# RT-DETR settings
+RTDETR_CONF_THRESHOLD = float(os.getenv("RTDETR_CONF_THRESHOLD", "0.4"))
+RTDETR_IOU_THRESHOLD  = float(os.getenv("RTDETR_IOU_THRESHOLD",  "0.5"))
+ 
+# Class map for your custom RT-DETR model.
+# After fine-tuning on your mouse dataset, class 0 = mouse.
+# Add more classes here if you label water_bottle, food_hopper etc.
+RTDETR_CLASS_MAP: dict[int, str] = {
+    0: "mouse",
+}
+ 

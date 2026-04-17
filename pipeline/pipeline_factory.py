@@ -1,12 +1,20 @@
+# pipeline/pipeline_factory.py
 import os
 
+
 def get_pipeline():
-    backend = os.getenv("BACKEND", "yolo").lower()
-    if backend == "yolo":
+    backend = os.getenv("BACKEND", "rtdetr").lower()
+
+    if backend == "rtdetr":
+        from pipeline.rtdetr_pipeline import RTDETRPipeline
+        return RTDETRPipeline()
+
+    elif backend == "yolo":
         from pipeline.yolo_pipeline import YOLOPipeline
         return YOLOPipeline()
-    elif backend == "ssd":
-        from pipeline.ssd_pipeline import SSDPipeline
-        return SSDPipeline()
+
     else:
-        raise ValueError(f"Unknown backend: {backend}. Use yolo or ssd.")
+        raise ValueError(
+            f"Unknown backend: '{backend}'. "
+            "Set BACKEND=rtdetr or BACKEND=yolo in your .env file."
+        )
